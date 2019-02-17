@@ -94,6 +94,18 @@ app.get('/', function (req, res) {
   }
 });
 
+app.get('/bookings', function (req, res) {
+    var json = {"results" : [{"startTime":"2019-02-02 09:30:00","endTime":"2019-02-02 10:30:00","user":{"username":"anoop","email":"anoop@mail.com"},"purpose":"Testing basics session"},{"startTime":"2019-02-02 11:30:00","endTime":"2019-02-02 12:00:00","user":{"username":"kk","email":"kk@mail.com"},"purpose":"Design basics session"},{"startTime":"2019-02-02 12:45:00","endTime":"2019-02-02 13:00:00","user":{"username":"nobis","email":"nobis@mail.com"},"purpose":"Freshers intro"},{"startTime":"2019-02-02 14:30:00","endTime":"2019-02-02 15:45:00","user":{"username":"delvin","email":"delvin@mail.com"},"purpose":"Payment gatway session"},{"startTime":"2019-02-02 16:30:00","endTime":"2019-02-02 18:30:00","user":{"username":"saju","email":"saju@mail.com"},"purpose":"C1 meeting"},{"startTime":"2019-02-02 18:30:00","endTime":"2019-02-02 19:30:00","user":{"username":"saju","email":"saju@mail.com"},"purpose":"Department meeting"}]};
+    var datetime = new Date();
+    var currentDate = datetime.toISOString().slice(0,10);
+    var jsonNew = {
+        results : json.results.map(function(slot){
+            return {...slot, startTime: slot.startTime.replace('2019-02-02', currentDate), endTime: slot.endTime.replace('2019-02-02', currentDate)}
+        })
+    };
+    res.json(jsonNew);
+  });
+
 app.get('/pagecount', function (req, res) {
   // try to initialize the db on every request if it's not already
   // initialized.
